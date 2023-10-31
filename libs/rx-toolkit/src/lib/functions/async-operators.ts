@@ -1,4 +1,4 @@
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 
 import { AsyncData, AsyncValue } from '../types';
 
@@ -27,11 +27,15 @@ export function whileLoading(loading: () => void) {
 export function mapAsync<T, R>(complete: (data: T) => R, loading: () => R) {
   return (source: Observable<AsyncValue<T>>): Observable<R> => {
     return source.pipe(
-      map(asyncValue =>
-        asyncValue.state === 'complete' || asyncValue.state === 'loading-cached'
-          ? complete(asyncValue.data)
-          : loading()
-      )
+      switchMap(asyncValue => {
+        if (asyncValue.state === 'error') {
+          return throwError(() => asyncValue.error);
+        }
+
+        return asyncValue.state === 'complete' || asyncValue.state === 'loading-cached'
+          ? of(complete(asyncValue.data))
+          : of(loading());
+      })
     );
   };
 }
