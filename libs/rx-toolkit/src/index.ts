@@ -1,1 +1,1 @@
-export * from './lib/rx-toolkit/rx-toolkit.component';
+export * from './lib/types';
