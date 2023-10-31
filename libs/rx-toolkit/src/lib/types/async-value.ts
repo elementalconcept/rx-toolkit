@@ -21,22 +21,34 @@ export interface AsyncData<T> {
 
 export type AsyncValue<T> = AsyncData<T> | AsyncLoading | AsyncError | AsyncLoadingCached<T>;
 
-export function asyncLoading(): AsyncLoading {
-  AsyncStateService.instance().add();
+export function asyncLoading(updateIdleState = true): AsyncLoading {
+  if (updateIdleState) {
+    AsyncStateService.instance().add();
+  }
+
   return { state: 'loading' };
 }
 
-export function asyncLoadingCached<T>(data: T): AsyncLoadingCached<T> {
-  AsyncStateService.instance().add();
+export function asyncLoadingCached<T>(data: T, updateIdleState = true): AsyncLoadingCached<T> {
+  if (updateIdleState) {
+    AsyncStateService.instance().add();
+  }
+
   return { state: 'loading-cached', data };
 }
 
-export function asyncError(error: Error): AsyncError {
-  AsyncStateService.instance().remove();
+export function asyncError(error: Error, updateIdleState = true): AsyncError {
+  if (updateIdleState) {
+    AsyncStateService.instance().remove();
+  }
+
   return { state: 'error', error };
 }
 
-export function asyncData<T>(data: T): AsyncData<T> {
-  AsyncStateService.instance().remove();
+export function asyncData<T>(data: T, updateIdleState = true): AsyncData<T> {
+  if (updateIdleState) {
+    AsyncStateService.instance().remove();
+  }
+
   return { state: 'complete', data };
 }
