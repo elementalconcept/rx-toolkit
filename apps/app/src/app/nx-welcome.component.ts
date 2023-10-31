@@ -1,10 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'rx-toolkit-nx-welcome',
   standalone: true,
-  imports: [CommonModule],
+  imports: [ CommonModule ],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -851,6 +851,6 @@ nx affected:e2e</pre>
     </div>
   `,
   styles: [],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class NxWelcomeComponent {}

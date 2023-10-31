@@ -7,7 +7,7 @@ describe('RxToolkitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RxToolkitComponent],
+      imports: [ RxToolkitComponent ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RxToolkitComponent);
