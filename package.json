@@ -2,7 +2,13 @@
   "name": "@rx-toolkit/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "format:check": "dprint check",
+    "format": "dprint fmt",
+    "lint": "npx nx affected -t lint --base=origin/master --parallel --max-parallel=3",
+    "test": "npx nx affected -t test --base=origin/master --parallel --max-parallel=3 --configuration=ci",
+    "test:build": "npx nx affected -t build --base=origin/master --head=HEAD --parallel --max-parallel=3"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~16.2.0",
