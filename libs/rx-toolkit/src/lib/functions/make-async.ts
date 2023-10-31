@@ -1,5 +1,6 @@
-import { catchError, concat, map, Observable, of } from 'rxjs';
+import { catchError, concat, map, Observable, of, throwError } from 'rxjs';
 
+import { AsyncStateService } from '../services';
 import { asyncData, asyncError, asyncLoading, asyncLoadingCached, AsyncValue } from '../types';
 
 export function makeAsync<T>(observable: Observable<T>, handleError = true): Observable<AsyncValue<T>> {
@@ -23,9 +24,11 @@ export function makeAsyncWithCache<T>(
 function asyncPipe<T>(observable: Observable<T>, handleError: boolean): Observable<AsyncValue<T>> {
   const result = observable.pipe(map(response => asyncData(response)));
 
-  if (handleError) {
-    return result.pipe(catchError(error => of(asyncError(error))));
-  }
-
-  return result;
+  return handleError
+    ? result.pipe(catchError(error => of(asyncError(error))))
+    : result
+      .pipe(catchError(error => {
+        AsyncStateService.instance().remove();
+        return throwError(() => error);
+      }));
 }

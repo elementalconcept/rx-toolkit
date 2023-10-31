@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { updateSubject } from '../../functions';
 
 @Injectable({ providedIn: 'root' })
 export class AsyncStateService {
@@ -45,4 +46,8 @@ export class AsyncStateService {
   get idle(): Observable<boolean> {
     return this.idle$;
   }
+
+  add = () => updateSubject(this.counter$, counter => counter++);
+
+  remove = () => updateSubject(this.counter$, counter => counter === 0 ? 0 : counter - 1);
 }

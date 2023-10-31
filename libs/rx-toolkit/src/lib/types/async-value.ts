@@ -1,3 +1,5 @@
+import { AsyncStateService } from '../services';
+
 export interface AsyncLoading {
   state: 'loading';
 }
@@ -19,10 +21,22 @@ export interface AsyncData<T> {
 
 export type AsyncValue<T> = AsyncData<T> | AsyncLoading | AsyncError | AsyncLoadingCached<T>;
 
-export const asyncLoading = (): AsyncLoading => ({ state: 'loading' });
+export function asyncLoading(): AsyncLoading {
+  AsyncStateService.instance().add();
+  return { state: 'loading' };
+}
 
-export const asyncError = (error: Error): AsyncError => ({ state: 'error', error });
+export function asyncLoadingCached<T>(data: T): AsyncLoadingCached<T> {
+  AsyncStateService.instance().add();
+  return { state: 'loading-cached', data };
+}
 
-export const asyncData = <T>(data: T): AsyncData<T> => ({ state: 'complete', data });
+export function asyncError(error: Error): AsyncError {
+  AsyncStateService.instance().remove();
+  return { state: 'error', error };
+}
 
-export const asyncLoadingCached = <T>(data: T): AsyncLoadingCached<T> => ({ state: 'loading-cached', data });
+export function asyncData<T>(data: T): AsyncData<T> {
+  AsyncStateService.instance().remove();
+  return { state: 'complete', data };
+}
