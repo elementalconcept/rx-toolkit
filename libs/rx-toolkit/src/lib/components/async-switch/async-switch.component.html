@@ -1,0 +1,15 @@
+<ng-container *ngIf="asyncValue.state === 'complete'">
+  <ng-content select=".complete"></ng-content>
+</ng-container>
+
+<ng-container *ngIf="asyncValue.state === 'error'">
+  <ng-content select=".error"></ng-content>
+</ng-container>
+
+<ng-container *ngIf="!skipCache && asyncValue.state === 'loading-cached'">
+  <ng-content select=".loading-cached"></ng-content>
+</ng-container>
+
+<ng-container *ngIf="asyncValue.state === 'loading' || (skipCache && asyncValue.state === 'loading-cached')">
+  <ng-content select=".loading"></ng-content>
+</ng-container>
