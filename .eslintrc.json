@@ -18,6 +18,15 @@
               }
             ]
           }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "warn",
+          {
+            "suffixes": [
+              "Component",
+              "Page"
+            ]
+          }
         ]
       }
     },
